@@ -32,8 +32,13 @@ public class SimpleEdgeDrawer extends ScreenGraphicsDrawer {
 
         ScreenCoordinates crds = new ScreenCoordinates(points);
 
-        if (polyline.isClosed())
+        if (polyline.isClosed()) {
+            Color oldColor = getGraphics().getColor();
+            getGraphics().setColor(Color.GREEN);
+            getGraphics().fillPolygon(crds.getXx(), crds.getYy(), crds.size());
+            getGraphics().setColor(oldColor);
             getGraphics().drawPolygon(crds.getXx(), crds.getYy(), crds.size());
+        }
         else
             getGraphics().drawPolyline(crds.getXx(), crds.getYy(), crds.size());
     }

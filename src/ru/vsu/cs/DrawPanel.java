@@ -5,10 +5,12 @@ import ru.vsu.cs.draw_helper.SimpleEdgeDrawer;
 import ru.vsu.cs.screen.ScreenConverter;
 import ru.vsu.cs.third_dimension.Camera;
 import ru.vsu.cs.third_dimension.Scene;
+import ru.vsu.cs.util.ModelLoader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class DrawPanel extends JPanel implements CameraController.RepaintListener {
     private Scene scene;
@@ -28,6 +30,8 @@ public class DrawPanel extends JPanel implements CameraController.RepaintListene
 //                new Vector3(-0.4f, -0.4f, -0.4f),
 //                new Vector3(0.4f, 0.4f, 0.4f)
 //        ));
+
+        scene.getModelsList().add(ModelLoader.load(new File("resources/minicooper.obj")));
 
         cameraController.addRepaintListener(this);
         addMouseListener(cameraController);
