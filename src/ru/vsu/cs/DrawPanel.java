@@ -31,7 +31,7 @@ public class DrawPanel extends JPanel implements CameraController.RepaintListene
 //                new Vector3(0.4f, 0.4f, 0.4f)
 //        ));
 
-        scene.getModelsList().add(ModelLoader.load(new File("resources/minicooper.obj")));
+        scene.getModelsList().add(new ModelLoader().load(new File("resources/sky.obj")));
 
         cameraController.addRepaintListener(this);
         addMouseListener(cameraController);
