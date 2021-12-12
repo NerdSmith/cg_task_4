@@ -1,6 +1,6 @@
 package ru.vsu.cs.third_dimension;
 
-import ru.vsu.cs.draw_helper.IDrawer;
+import ru.vsu.cs.draw_helper.DrawerBase;
 import ru.vsu.cs.linear_alg.Vector3;
 import ru.vsu.cs.third_dimension.models.Line3D;
 import ru.vsu.cs.third_dimension.models.ModelBase;
@@ -45,7 +45,7 @@ public class Scene {
             new Line3D(new Vector3(0, 0, 0), new Vector3(0, 0, 1))
     );
 
-    public void drawScene(IDrawer drawer, CameraBase camera) {
+    public void drawScene(DrawerBase drawer, CameraBase camera) {
         List<PolyLine3D> lines = new LinkedList<>();
         LinkedList<Collection<? extends ModelBase>> allModels = new LinkedList<>();
         allModels.add(models);

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public abstract class ScreenGraphicsDrawer implements IDrawer {
+public abstract class ScreenGraphicsDrawer implements DrawerBase {
     private ScreenConverter screenConverter;
     private Graphics2D gr2d;
 
@@ -27,7 +27,7 @@ public abstract class ScreenGraphicsDrawer implements IDrawer {
     @Override
     public void draw(Collection<PolyLine3D> polylines) {
         List<PolyLine3D> lines = new LinkedList<>();
-        IFilter<PolyLine3D> filter = getFilter();
+        FilterBase<PolyLine3D> filter = getFilter();
         for (PolyLine3D pl : polylines) {
             if (filter.permit(pl))
                 lines.add(pl);
@@ -50,7 +50,7 @@ public abstract class ScreenGraphicsDrawer implements IDrawer {
 
     protected abstract void oneDraw(PolyLine3D polyline);
 
-    protected abstract IFilter<PolyLine3D> getFilter();
+    protected abstract FilterBase<PolyLine3D> getFilter();
 
     protected abstract Comparator<PolyLine3D> getComparator();
 }

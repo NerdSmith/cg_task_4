@@ -1,8 +1,7 @@
 package ru.vsu.cs;
 
-import ru.vsu.cs.draw_helper.IDrawer;
+import ru.vsu.cs.draw_helper.DrawerBase;
 import ru.vsu.cs.draw_helper.SimpleEdgeDrawer;
-import ru.vsu.cs.linear_alg.Vector3;
 import ru.vsu.cs.screen.ScreenConverter;
 import ru.vsu.cs.third_dimension.Camera;
 import ru.vsu.cs.third_dimension.Scene;
@@ -41,7 +40,7 @@ public class DrawPanel extends JPanel implements CameraController.RepaintListene
         screenConverter.setScreenSize(getWidth(), getHeight());
         BufferedImage bi = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = (Graphics2D)bi.getGraphics();
-        IDrawer dr = new SimpleEdgeDrawer(screenConverter, graphics);
+        DrawerBase dr = new SimpleEdgeDrawer(screenConverter, graphics);
         scene.drawScene(dr, camera);
         g.drawImage(bi, 0, 0, null);
         graphics.dispose();

@@ -39,8 +39,8 @@ public class SimpleEdgeDrawer extends ScreenGraphicsDrawer {
     }
 
     @Override
-    protected IFilter<PolyLine3D> getFilter() {
-        return new IFilter<PolyLine3D>() {
+    protected FilterBase<PolyLine3D> getFilter() {
+        return new FilterBase<PolyLine3D>() {
             @Override
             public boolean permit(PolyLine3D line) {
                 return true;

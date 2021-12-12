@@ -1,5 +1,5 @@
 package ru.vsu.cs.draw_helper;
 
-public interface IFilter<T> {
+public interface FilterBase<T> {
     boolean permit(T value);
 }
