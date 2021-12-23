@@ -23,6 +23,18 @@ public class Vector3 {
     public float atIdx(int idx) {
         return values[idx];
     }
+
+    public float getByAxis(Axis axis) {
+        switch (axis) {
+            case X:
+                return values[0];
+            case Y:
+                return values[1];
+            case Z:
+                return values[2];
+        }
+        return 0;
+    }
     
     private static final float EPSILON = 1e-10f;
 

@@ -35,7 +35,7 @@ public class SimpleEdgeDrawer extends ScreenGraphicsDrawer {
         if (polyline.isClosed()) {
             Color oldColor = getGraphics().getColor();
             getGraphics().setColor(Color.GREEN);
-            getGraphics().fillPolygon(crds.getXx(), crds.getYy(), crds.size());
+            getGraphics().drawPolyline(crds.getXx(), crds.getYy(), crds.size());
             getGraphics().setColor(oldColor);
             getGraphics().drawPolygon(crds.getXx(), crds.getYy(), crds.size());
         }

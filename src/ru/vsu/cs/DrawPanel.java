@@ -2,10 +2,15 @@ package ru.vsu.cs;
 
 import ru.vsu.cs.draw_helper.DrawerBase;
 import ru.vsu.cs.draw_helper.SimpleEdgeDrawer;
+import ru.vsu.cs.linear_alg.Vector3;
 import ru.vsu.cs.screen.ScreenConverter;
 import ru.vsu.cs.third_dimension.Camera;
 import ru.vsu.cs.third_dimension.Scene;
+import ru.vsu.cs.third_dimension.models.ModelBase;
+import ru.vsu.cs.third_dimension.models.Parallelepiped;
+import ru.vsu.cs.third_dimension.models.Voxel;
 import ru.vsu.cs.util.ModelLoader;
+import ru.vsu.cs.util.VoxelService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,12 +31,19 @@ public class DrawPanel extends JPanel implements CameraController.RepaintListene
         scene = new Scene(Color.WHITE.getRGB());
         scene.showAxes();
 
+//        scene.getModelsList().add(new Parallelepiped(new Vector3(0, 0, 0), 2));
 //        scene.getModelsList().add(new Parallelepiped(
-//                new Vector3(-0.4f, -0.4f, -0.4f),
-//                new Vector3(0.4f, 0.4f, 0.4f)
+//                new Vector3(-0.5f, -0.5f, 0.5f),
+//                new Vector3(0.5f, 0.5f, -0.5f)
 //        ));
 
-        scene.getModelsList().add(new ModelLoader().load(new File("resources/sky.obj")));
+        scene.getModelsList().add(new ModelLoader().load(new File("resources/lowPolygon/humanoid.obj")));
+        VoxelService voxelService = new VoxelService();
+
+        for (Voxel voxel: voxelService.toVoxels(scene.getModelsList().get(0), 1f)) {
+            scene.getModelsList().add(voxel);
+        }
+
 
         cameraController.addRepaintListener(this);
         addMouseListener(cameraController);
