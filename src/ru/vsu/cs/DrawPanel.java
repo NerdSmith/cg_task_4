@@ -43,10 +43,10 @@ public class DrawPanel extends JPanel implements CameraController.RepaintListene
 //                new Vector3(0.5f, 0.5f, -0.5f)
 //        ));
 
-//        scene.getModelsList().add(new ModelLoader().load(new File("resources/lowPolygon/humanoid.obj")));
+//        scene.getModelsList().add(new ModelLoader().load(new File("resources/lowPolygon/diamond.obj")));
 //        VoxelService voxelService = new VoxelService();
 //
-//        for (Voxel voxel: voxelService.toVoxels(scene.getModelsList().get(0), 1f)) {
+//        for (Voxel voxel: voxelService.toVoxels(scene.getModelsList().get(0), 10f)) {
 //            scene.getModelsList().add(voxel);
 //        }
 

@@ -118,7 +118,11 @@ public class MainFrame extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            this.drawPanel.voxelize(Float.parseFloat(sizeTextField.getText()));
+            String text = sizeTextField.getText();
+            if (!text.equals("")) {
+                this.drawPanel.voxelize(Float.parseFloat(text));
+            }
+
         }
     }
 }
