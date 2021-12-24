@@ -47,10 +47,10 @@ public class VoxelService {
                         currZ <= bounds.getCenter().getZ() + halfBoundsEdgeLen;
                         currZ += voxelSize
                 ) {
-                    System.out.println("Checking: " + currX + " " + currY + " " + currZ);
+                    //System.out.println("Checking: " + currX + " " + currY + " " + currZ);
                     if (isPointInsideModel(new Vector3(currX, currY, currZ), model)) {
                         voxels.add(new Voxel(new Vector3(currX, currY, currZ), voxelSize));
-                        System.out.println("passed");
+                        //System.out.println("passed");
                     }
                 }
             }
@@ -62,10 +62,11 @@ public class VoxelService {
     private boolean isPointInsideModel(Vector3 point, ModelBase model) {
         int xRayIntersects = numberOfPolygonIntersectionsByAxis(point, model, Axis.Y, Axis.Z);
         int yRayIntersects = numberOfPolygonIntersectionsByAxis(point, model, Axis.X, Axis.Z);
-        int zRayIntersects = numberOfPolygonIntersectionsByAxis(point, model, Axis.Y, Axis.X);
-        System.out.println("Intersects "+ xRayIntersects + " " + yRayIntersects + " " + zRayIntersects);
+        int zRayIntersects = numberOfPolygonIntersectionsByAxis(point, model, Axis.X, Axis.Y);
+//        if (xRayIntersects != 0 || yRayIntersects != 0 || zRayIntersects != 0)
+//            System.out.println("Intersects "+ xRayIntersects + " " + yRayIntersects + " " + zRayIntersects);
 
-        return xRayIntersects != 0 && yRayIntersects != 0;
+        return xRayIntersects != 0 && yRayIntersects != 0 && zRayIntersects != 0;
     }
 
     private int numberOfPolygonIntersectionsByAxis(Vector3 point, ModelBase model, Axis firstAxis, Axis secondAxis) {
@@ -77,40 +78,65 @@ public class VoxelService {
             for (Vector3 point3d: polygon.getPoints()) {
                 projectedPolygon.add(new Vector2(point3d.getByAxis(firstAxis), point3d.getByAxis(secondAxis)));
             }
+//            if (firstAxis == Axis.X && secondAxis == Axis.Y)
+//                System.out.print(projectedPolygon + " ");
 
-            if (MathUtils.getPolygon2dSquare(projectedPolygon) != 0) {
+            float square = MathUtils.getPolygon2dSquare(projectedPolygon);
+//            if (firstAxis == Axis.X && secondAxis == Axis.Y)
+//                System.out.println(square);
+            if (square != 0) {
                 Vector2 projectedPoint = new Vector2(point.getByAxis(firstAxis), point.getByAxis(secondAxis));
-                intersections += polygon2dContainsPoint(projectedPolygon, projectedPoint) ? 1 : 0;
+//                intersections += polygon2dContainsPoint(projectedPolygon, projectedPoint) ? 1 : 0;
+                intersections += pointInPolygon(projectedPolygon, projectedPoint) ? 1 : 0;
             }
         }
         return intersections;
     }
 
-    private boolean polygon2dContainsPoint(List<Vector2> projectedPolygon, Vector2 projectedPoint) {
-        boolean result = false;
-        int j = projectedPolygon.size() - 1;
+    public boolean pointInPolygon(List<Vector2> polygon, Vector2 point) {
+        boolean odd = false;
 
-        for (int i = 0; i < projectedPolygon.size(); i++) {
-            if (
-                    (
-                            projectedPolygon.get(i).getSecond() < projectedPoint.getSecond() &&
-                                    projectedPolygon.get(j).getSecond() >= projectedPoint.getSecond() ||
-                                    projectedPolygon.get(j).getSecond() < projectedPoint.getSecond() &&
-                                            projectedPolygon.get(i).getSecond() >= projectedPoint.getSecond()
-                    ) &&
-                    (
-                            projectedPolygon.get(i).getFirst() +
-                                    (projectedPoint.getSecond() - projectedPolygon.get(i).getSecond()) /
-                                            (projectedPolygon.get(j).getSecond() - projectedPolygon.get(i).getSecond()) *
-                                            (projectedPolygon.get(j).getFirst() - projectedPolygon.get(i).getFirst()) < projectedPoint.getFirst()
-                    )
-            )
-                result = !result;
+        for (int i = 0, j = polygon.size() - 1; i < polygon.size(); i++) {
+
+            if (((polygon.get(i).getSecond() > point.getSecond()) != (polygon.get(j).getSecond() > point.getSecond()))
+                    && (point.getFirst() < (polygon.get(j).getFirst() - polygon.get(i).getFirst()) * (point.getSecond() - polygon.get(i).getSecond()) /
+                    (polygon.get(j).getSecond() - polygon.get(i).getSecond()) + polygon.get(i).getFirst())) {
+
+                odd = !odd;
+            }
+
             j = i;
         }
 
-        return result;
+        return odd;
     }
+
+
+//    private boolean polygon2dContainsPoint(List<Vector2> projectedPolygon, Vector2 projectedPoint) {
+//        boolean result = false;
+//        int j = projectedPolygon.size() - 1;
+//
+//        for (int i = 0; i < projectedPolygon.size(); i++) {
+//            if (
+//                    (
+//                            projectedPolygon.get(i).getSecond() < projectedPoint.getSecond() &&
+//                                    projectedPolygon.get(j).getSecond() >= projectedPoint.getSecond() ||
+//                                    projectedPolygon.get(j).getSecond() < projectedPoint.getSecond() &&
+//                                            projectedPolygon.get(i).getSecond() >= projectedPoint.getSecond()
+//                    ) &&
+//                    (
+//                            projectedPolygon.get(i).getFirst() +
+//                                    (projectedPoint.getSecond() - projectedPolygon.get(i).getSecond()) /
+//                                            (projectedPolygon.get(j).getSecond() - projectedPolygon.get(i).getSecond()) *
+//                                            (projectedPolygon.get(j).getFirst() - projectedPolygon.get(i).getFirst()) < projectedPoint.getFirst()
+//                    )
+//            )
+//                result = !result;
+//            j = i;
+//        }
+//
+//        return result;
+//    }
 
     private Parallelepiped getBounds(ModelBase model, float voxelSize) {
         float xMax = getMaxCoordinate(model, Axis.X) + voxelSize*10;

@@ -16,4 +16,12 @@ public class Vector2 {
     public float getSecond() {
         return second;
     }
+
+    @Override
+    public String toString() {
+        return "Vector2{" +
+                 first +
+                ", " + second +
+                '}';
+    }
 }
